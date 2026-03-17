@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://digitallostandfound-backend.onrender.com/api',
 });
 
 // Add a request interceptor to include the auth token
