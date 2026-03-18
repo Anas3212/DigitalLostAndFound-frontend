@@ -28,6 +28,8 @@ import QRGenerator from '../components/QRGenerator';
 const ItemDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showClaimModal, setShowClaimModal] = useState(false);
@@ -48,8 +50,6 @@ const ItemDetails = () => {
     tags: ''
   });
   const [copiedIndex, setCopiedIndex] = useState(null);
-
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
   useEffect(() => {
     const fetchItem = async () => {
