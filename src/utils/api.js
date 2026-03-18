@@ -1,8 +1,14 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://digitallostandfound-backend.onrender.com/api',
+  baseURL: import.meta.env.VITE_API_URL || (
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:5000/api'
+      : 'https://digitallostandfound-backend.onrender.com/api'
+  ),
 });
+
+console.log('API Base URL:', api.defaults.baseURL);
 
 // Add a request interceptor to include the auth token
 api.interceptors.request.use((config) => {

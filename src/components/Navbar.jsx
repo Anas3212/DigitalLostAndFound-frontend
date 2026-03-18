@@ -1,4 +1,4 @@
-import { Search, PlusCircle, Bell } from 'lucide-react';
+import { Search, PlusCircle, Bell, Navigation } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Navbar = () => {
@@ -14,8 +14,11 @@ const Navbar = () => {
       
       <div className="flex items-center gap-6">
         <Link to="/browse" className="text-slate-600 hover:text-primary-600 transition-all flex items-center gap-2 font-bold uppercase tracking-tight text-sm">
-          <Search size={20} />
           <span>Browse</span>
+        </Link>
+        <Link to="/nearby" className="text-slate-600 hover:text-primary-600 transition-all flex items-center gap-2 font-bold uppercase tracking-tight text-sm">
+          <Navigation size={20} />
+          <span>Nearby</span>
         </Link>
         
         {user ? (

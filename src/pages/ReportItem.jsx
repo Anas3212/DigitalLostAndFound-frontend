@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import { Upload, Camera, Tag, MapPin, Calendar, CheckCircle, ArrowRight, ArrowLeft, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import MapPicker from '../components/MapPicker';
 
 const ReportItem = () => {
   const navigate = useNavigate();
@@ -16,7 +17,8 @@ const ReportItem = () => {
     location: '',
     date: new Date().toISOString().split('T')[0],
     tags: '',
-    images: []
+    images: [],
+    coordinates: null
   });
   const [previews, setPreviews] = useState([]);
 
@@ -54,6 +56,10 @@ const ReportItem = () => {
         formData.images.forEach(image => {
           data.append('images', image);
         });
+      } else if (key === 'coordinates') {
+        if (formData[key]) {
+          data.append(key, JSON.stringify(formData[key]));
+        }
       } else {
         data.append(key, formData[key]);
       }
@@ -187,6 +193,14 @@ const ReportItem = () => {
                     onChange={handleChange}
                     placeholder="e.g. Library, Cafe, Room 302"
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all placeholder:italic"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Pin on Map (Optional)</label>
+                  <MapPicker 
+                    name="coordinates" 
+                    value={formData.coordinates} 
+                    onChange={handleChange} 
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">

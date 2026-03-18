@@ -10,6 +10,7 @@ import Register from './pages/Register';
 import ItemDetails from './pages/ItemDetails';
 import Profile from './pages/Profile';
 import PublicItemView from './pages/PublicItemView';
+import SmartMatchMap from './pages/SmartMatchMap';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/items/:id" element={<ItemDetails />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/public-item/:id" element={<PublicItemView />} />
+            <Route path="/nearby" element={<SmartMatchMap />} />
           </Routes>
         </main>
       </div>

@@ -24,6 +24,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import QRGenerator from '../components/QRGenerator';
+import LocationDisplay from '../components/LocationDisplay';
+import MapPicker from '../components/MapPicker';
 
 const ItemDetails = () => {
   const { id } = useParams();
@@ -47,7 +49,8 @@ const ItemDetails = () => {
     description: '',
     category: '',
     location: '',
-    tags: ''
+    tags: '',
+    coordinates: null
   });
   const [copiedIndex, setCopiedIndex] = useState(null);
 
@@ -61,7 +64,8 @@ const ItemDetails = () => {
           description: data.description,
           category: data.category,
           location: data.location,
-          tags: data.tags?.join(', ') || ''
+          tags: data.tags?.join(', ') || '',
+          coordinates: data.coordinates || null
         });
       } catch (error) {
         console.error('Error fetching item:', error);
@@ -323,6 +327,8 @@ const ItemDetails = () => {
             </button>
           )}
 
+          <LocationDisplay coordinates={item.coordinates} locationName={item.location} />
+
           {isOwner && (
             <div className="space-y-6">
               <div className="flex flex-col gap-4">
@@ -491,6 +497,15 @@ const ItemDetails = () => {
                         className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-primary-100 outline-none transition-all font-bold"
                       />
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Update Map Pin (Optional)</label>
+                    <MapPicker 
+                      name="coordinates" 
+                      value={editData.coordinates} 
+                      onChange={(e) => setEditData(prev => ({ ...prev, coordinates: e.target.value }))} 
+                    />
                   </div>
 
                   <div className="flex gap-4 pt-4">
