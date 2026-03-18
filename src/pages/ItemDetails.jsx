@@ -6,6 +6,8 @@ import {
   Calendar, 
   Tag, 
   User, 
+  Mail,
+  Phone,
   ArrowLeft, 
   ShieldCheck, 
   Upload, 
@@ -29,7 +31,7 @@ const ItemDetails = () => {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showClaimModal, setShowClaimModal] = useState(false);
-  const [claimData, setClaimData] = useState({ description: '', proofImage: null });
+  const [claimData, setClaimData] = useState({ description: '', contactPhone: userInfo?.phoneNumber || '', proofImage: null });
   const [claimLoading, setClaimLoading] = useState(false);
   const [preview, setPreview] = useState(null);
   const [activeImage, setActiveImage] = useState(0);
@@ -124,6 +126,7 @@ const ItemDetails = () => {
     const formData = new FormData();
     formData.append('itemId', id);
     formData.append('description', claimData.description);
+    formData.append('contactPhone', claimData.contactPhone);
     if (claimData.proofImage) {
       formData.append('proofImage', claimData.proofImage);
     }
@@ -274,6 +277,18 @@ const ItemDetails = () => {
               <div className="flex items-center gap-2 text-slate-900 font-bold capitalize">
                 <User size={18} className="text-primary-600" />
                 <span>{item.reportedBy?.name || 'Anonymous User'}</span>
+              </div>
+              <div className="flex flex-col gap-1 mt-2">
+                <div className="flex items-center gap-2 text-slate-500 text-sm italic">
+                  <Mail size={14} />
+                  <span>{item.reportedBy?.email || 'N/A'}</span>
+                </div>
+                {item.reportedBy?.phoneNumber && (
+                  <div className="flex items-center gap-2 text-slate-500 text-sm italic">
+                    <Phone size={14} />
+                    <span>{item.reportedBy.phoneNumber}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -541,6 +556,17 @@ const ItemDetails = () => {
                       placeholder="Describe unique features, when you lost it, etc..."
                       className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-primary-100 outline-none transition-all resize-none italic"
                       onChange={(e) => setClaimData(prev => ({ ...prev, description: e.target.value }))}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Your Contact Phone</label>
+                    <input 
+                      type="text"
+                      placeholder="e.g. +1 234 567 890"
+                      value={claimData.contactPhone}
+                      className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-primary-100 outline-none transition-all font-bold"
+                      onChange={(e) => setClaimData(prev => ({ ...prev, contactPhone: e.target.value }))}
                     />
                   </div>
 

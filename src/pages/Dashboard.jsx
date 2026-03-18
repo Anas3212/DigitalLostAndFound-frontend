@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
-import { Package, CheckCircle, Clock, XCircle, ChevronRight, Inbox, ShieldCheck, Check, X, MessageSquare, Search } from 'lucide-react';
+import { Package, CheckCircle, Clock, XCircle, ChevronRight, Inbox, ShieldCheck, Check, X, MessageSquare, Search, Phone, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import QRGenerator from '../components/QRGenerator';
@@ -348,7 +348,16 @@ const Dashboard = () => {
                                 </div>
                                 <div>
                                   <p className="text-xs font-bold text-slate-900 uppercase tracking-tight">{claim.claimant?.name}</p>
-                                  <p className="text-[10px] text-slate-400 italic">{claim.claimant?.email}</p>
+                                  <div className="flex flex-col gap-0.5 mt-0.5">
+                                    <p className="text-[10px] text-slate-400 italic flex items-center gap-1">
+                                      <Mail size={10} /> {claim.claimant?.email}
+                                    </p>
+                                    {(claim.contactPhone || claim.claimant?.phoneNumber) && (
+                                      <p className="text-[10px] text-primary-600 font-bold flex items-center gap-1">
+                                        <Phone size={10} /> {claim.contactPhone || claim.claimant?.phoneNumber}
+                                      </p>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                               <StatusBadge status={claim.status} />

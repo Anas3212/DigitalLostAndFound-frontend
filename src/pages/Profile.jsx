@@ -8,7 +8,7 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editData, setEditData] = useState({ name: '', email: '' });
+  const [editData, setEditData] = useState({ name: '', email: '', phoneNumber: '' });
   const [updateLoading, setUpdateLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ const Profile = () => {
     try {
       const { data } = await api.get('/users/profile');
       setUser(data);
-      setEditData({ name: data.name, email: data.email });
+      setEditData({ name: data.name, email: data.email, phoneNumber: data.phoneNumber || '' });
       
       const stored = localStorage.getItem('userInfo');
       if (stored) {
@@ -92,6 +92,7 @@ const Profile = () => {
             <div>
               <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">{user.name}</h2>
               <p className="text-slate-500 italic font-medium">{user.email}</p>
+              {user.phoneNumber && <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mt-1">{user.phoneNumber}</p>}
             </div>
 
             <div className="w-full pt-4">
@@ -122,7 +123,7 @@ const Profile = () => {
                 { 
                   icon: <User className="text-primary-500" />, 
                   title: "Personal Info", 
-                  desc: "Update your name and profile details", 
+                  desc: user.phoneNumber ? `Phone: ${user.phoneNumber}` : "Add your phone number for easier contact", 
                   action: "Edit",
                   onClick: () => setShowEditModal(true)
                 },
@@ -197,6 +198,16 @@ const Profile = () => {
                       required
                       value={editData.email}
                       onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-4 focus:ring-primary-100 outline-none transition-all font-medium"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Phone Number</label>
+                    <input 
+                      type="text" 
+                      value={editData.phoneNumber}
+                      onChange={(e) => setEditData({ ...editData, phoneNumber: e.target.value })}
+                      placeholder="e.g. +1 234 567 890"
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-4 focus:ring-primary-100 outline-none transition-all font-medium"
                     />
                   </div>
